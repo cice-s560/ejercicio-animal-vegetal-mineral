@@ -16,6 +16,9 @@ const userAnswers = {
 // Intentos del usuario
 const maxTries = 2;
 let currentTry = 0;
+// Almacenaré índices aleatorios
+// para no repetir
+let selectedTypeRaw = [];
 
 // Función de validación
 const stringValidator = value => value.length > 0 || "Debes introducir un valor";
@@ -123,18 +126,22 @@ async function resolveGame(subject) {
 async function tryAnswer() {
     // Si el usuario lo intenta
     // pero no le quedan oportunidades
-    if (currentTry >= maxTries) {
+    if (currentTry >= maxTries || selectedTypeRaw.length === 0) {
         console.log("Ok, me rindo :( No acierto a adivinar lo que tu mente es capaz de imaginar");
 
         return endGame();
     }
 
-    // Referencio el tipo con sus objs
-    const typeSelected = dbFile[userAnswers.tipo];
     // genero un número aleatorio de entre sus posiciones posibles
-    const posRandom = Math.round(Math.random() * (typeSelected.length - 1));
+    const posRandom = Math.round(Math.random() * (selectedTypeRaw.length - 1));
+
     // Elijo el obj con esa posición
-    const choice = typeSelected[posRandom];
+    // creo un obj nuevo para no perder la ref
+    const choice = {...selectedTypeRaw[posRandom]};
+
+    // elimino ese obj
+    // ya lo he usado
+    selectedTypeRaw.splice(posRandom, 1);
 
     const stepTry = await inquirer.prompt([
         {
@@ -186,6 +193,11 @@ Ummmmmmmmmmm........ déjame que piense.......
             // GAME OVER
             endGame();
         }
+
+        // Referencio el tipo con sus objs
+        const typeSelected = dbFile[userAnswers.tipo];
+        // Clono el array en mi array independiente
+        selectedTypeRaw = [...typeSelected];
 
         tryAnswer();
     }, 1500);

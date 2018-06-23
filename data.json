@@ -1,1 +1,11 @@
-{"animal":[{"name":"vaca","author":"cpu","question":"¿Le muuuuuuucho la hierba?"},{"name":"Cabra","author":"Gonzalo","question":"¿Las hay montesas?"},{"name":"Oso","author":"Gonzalo","question":"¿Come miel?"}],"vegetal":[],"mineral":[]}
+{
+    "animal": [
+        {
+            "name": "vaca",
+            "author": "cpu",
+            "question": "¿Le muuuuuuucho la hierba?"
+        }
+    ],
+    "vegetal": [],
+    "mineral": []
+}
